@@ -1,5 +1,5 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
-use hextile::api::gen_draw_fn;
+use hextile::r#mod::gen_draw_fn;
 use image::Rgba;
 use std::time::Duration;
 
