@@ -1,0 +1,14 @@
+[package]
+name = "benches"
+version = "0.1.0"
+edition = "2021"
+
+[dev-dependencies]
+criterion = "0.3"
+hextile = { path = "../" }
+image = "0.23"
+
+[[bench]]
+name = "gen_tri_fn"
+path = "gen_tri_fn.rs"
+harness = false
