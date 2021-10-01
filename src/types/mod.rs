@@ -2,6 +2,8 @@
 
 use image::{ImageBuffer, Pixel};
 
+use crate::rasterization::plot_line_bres;
+
 #[cfg(test)]
 mod tests;
 
@@ -68,5 +70,15 @@ impl Line {
     /// Returns the bottom right `Point` of the `Line`
     pub fn bottom_right(&self) -> Point {
         self.br
+    }
+
+    /// Returns a fn pointer which returns an `ImageBuffer` with a triangle drawn on it
+    pub fn draw_over_buf<P: Pixel + 'static>(
+        &self,
+        buf: &mut GenericImageBuf<P>,
+        color: &'static P,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        // Draw line on buffer
+        plot_line_bres::<P>(buf, color, *self)
     }
 }

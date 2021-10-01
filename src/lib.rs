@@ -14,7 +14,6 @@
     missing_debug_implementations
 )]
 
-pub mod api;
 pub(crate) mod rasterization;
 pub mod types;
 
