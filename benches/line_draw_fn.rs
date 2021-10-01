@@ -1,13 +1,16 @@
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
-use hextile::api::gen_draw_fn;
-use image::Rgba;
 use std::time::Duration;
+
+use criterion::{criterion_group, criterion_main, Criterion};
+use image::Rgba;
+
+use hextile::api::line_draw_fn;
+use hextile::prelude::{Line, Point};
 
 fn gen_bench(c: &mut Criterion) {
     c.bench_function("gen draw fn NODRAW", |b| {
         b.iter(|| {
-            gen_draw_fn(
-                [0; 2],
+            line_draw_fn(
+                Line::default(),
                 [1; 2],
                 &Rgba {
                     0: [255, 255, 255, 255],
@@ -18,11 +21,12 @@ fn gen_bench(c: &mut Criterion) {
 }
 
 fn run_bench_8x8(c: &mut Criterion) {
+    const SIZE: u32 = 8u32;
     c.bench_function("gen draw fn 8x8", |b| {
         b.iter(|| {
-            gen_draw_fn(
-                [0; 2],
-                [8; 2],
+            line_draw_fn(
+                Line::new(Point::new(0u32, 0u32), Point::new(SIZE, SIZE)),
+                [SIZE; 2],
                 &Rgba {
                     0: [255, 255, 255, 255],
                 },
@@ -31,12 +35,14 @@ fn run_bench_8x8(c: &mut Criterion) {
         })
     });
 }
+
 fn run_bench_64x64(c: &mut Criterion) {
+    const SIZE: u32 = 64u32;
     c.bench_function("gen draw fn 64x64", |b| {
         b.iter(|| {
-            gen_draw_fn(
-                [0; 2],
-                [64; 2],
+            line_draw_fn(
+                Line::new(Point::new(0u32, 0u32), Point::new(SIZE, SIZE)),
+                [SIZE; 2],
                 &Rgba {
                     0: [255, 255, 255, 255],
                 },
@@ -47,10 +53,11 @@ fn run_bench_64x64(c: &mut Criterion) {
 }
 
 fn run_bench_512x512(c: &mut Criterion) {
+    const SIZE: u32 = 512u32;
     c.bench_function("gen draw fn 512x512", |b| {
         b.iter(|| {
-            gen_draw_fn(
-                [0; 2],
+            line_draw_fn(
+                Line::new(Point::new(0u32, 0u32), Point::new(SIZE, SIZE)),
                 [512; 2],
                 &Rgba {
                     0: [255, 255, 255, 255],
@@ -62,10 +69,11 @@ fn run_bench_512x512(c: &mut Criterion) {
 }
 
 fn run_bench_1024x1024(c: &mut Criterion) {
+    const SIZE: u32 = 1024u32;
     c.bench_function("gen draw fn 1024x1024", |b| {
         b.iter(|| {
-            gen_draw_fn(
-                [0; 2],
+            line_draw_fn(
+                Line::new(Point::new(0u32, 0u32), Point::new(SIZE, SIZE)),
                 [1024; 2],
                 &Rgba {
                     0: [255, 255, 255, 255],
@@ -77,11 +85,12 @@ fn run_bench_1024x1024(c: &mut Criterion) {
 }
 
 fn run_bench_2048x2048(c: &mut Criterion) {
+    const SIZE: u32 = 2048u32;
     c.bench_function("gen draw fn 2048x2048", |b| {
         b.iter(|| {
-            gen_draw_fn(
-                [0; 2],
-                [2048; 2],
+            line_draw_fn(
+                Line::new(Point::new(0u32, 0u32), Point::new(SIZE, SIZE)),
+                [SIZE; 2],
                 &Rgba {
                     0: [255, 255, 255, 255],
                 },
@@ -90,6 +99,7 @@ fn run_bench_2048x2048(c: &mut Criterion) {
         })
     });
 }
+
 criterion_group! {
     name = benches;
     // This can be any expression that returns a `Criterion` object.

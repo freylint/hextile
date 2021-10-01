@@ -1,31 +1,37 @@
-//! Tests module for the `gen_draw_fn` function
+//! Tests module for the `line_draw_fn` function
 
 use image::{ImageBuffer, Rgba};
 
-use crate::api::gen_draw_fn;
+use crate::api::line_draw_fn;
 use crate::tests_prelude::*;
+use crate::types::{Line, Point};
 
 #[test]
 fn returns() {
-    let _ = gen_draw_fn(ARRAY2_ZERO, TEST_SIZE, &COLOR_WHITE_RGBA);
+    let _ = line_draw_fn(Line::default(), TEST_SIZE, &COLOR_WHITE_RGBA);
 }
 
 #[test]
 fn returns_ok() {
-    let res = gen_draw_fn(ARRAY2_ZERO, TEST_SIZE, &COLOR_WHITE_RGBA);
+    let res = line_draw_fn(Line::default(), TEST_SIZE, &COLOR_WHITE_RGBA);
 
     let _ = res().unwrap();
 }
 
 #[test]
 fn modifies_imgbuf() {
-    let res = gen_draw_fn(ARRAY2_ZERO, TEST_SIZE, &COLOR_WHITE_RGBA);
+    let res = line_draw_fn(
+        Line::new(Point::new(0u32, 0u32), Point::new(1u32, 1u32)),
+        TEST_SIZE,
+        &COLOR_WHITE_RGBA,
+    );
 
     assert_ne!(
         res().unwrap(),
         ImageBuffer::<Rgba<u8>, Vec<u8>>::new(TEST_SIZE[0], TEST_SIZE[1])
     );
 }
+
 #[test]
 fn draws_line() {
     // Predefine SIZE separate from global test buf SIZE
@@ -41,7 +47,7 @@ fn draws_line() {
 
     // Manually computed image data
     #[rustfmt::skip]
-    let data = Vec::from([
+        let data = Vec::from([
         W, A, A, A, A, A, A, A,
         A, W, A, A, A, A, A, A,
         A, A, W, A, A, A, A, A,
@@ -51,6 +57,8 @@ fn draws_line() {
         A, A, A, A, A, A, W, A,
         A, A, A, A, A, A, A, W,
     ]);
+
+    let line = Line::new(Point::new(0u32, 0u32), Point::new(SIZE[0], SIZE[1]));
 
     // Pack data into vector
     let mut data_stack: Vec<u8> = Vec::with_capacity((SIZE[0] * SIZE[1] * 4) as usize);
@@ -63,7 +71,7 @@ fn draws_line() {
     let man_buf = ImageBuffer::<Rgba<u8>, Vec<u8>>::from_raw(SIZE[0], SIZE[1], data_stack).unwrap();
 
     // Algorithmically generate image buffer
-    let buf = gen_draw_fn(ARRAY2_ZERO, TEST_SIZE, &COLOR_WHITE_RGBA)().unwrap();
+    let buf = line_draw_fn(line, TEST_SIZE, &COLOR_WHITE_RGBA)().unwrap();
 
     // Check that the two buffers are the same
     assert_eq!(buf, man_buf);

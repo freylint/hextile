@@ -1,16 +1,16 @@
-//! External API module
+//! External API
 
 use image::{ImageBuffer, Pixel};
 
 use crate::rasterization::plot_line_bres;
-use crate::types::{GenImageBuf, Line, Point};
+use crate::types::{GenImageBuf, Line};
 
 #[cfg(test)]
 mod tests;
 
 /// Returns a fn pointer which returns an `ImageBuffer` with a triangle drawn on it
-pub fn gen_draw_fn<'f, P: Pixel + 'static>(
-    _pos: impl Into<[u32; 2]>,
+pub fn line_draw_fn<'f, P: Pixel + 'static>(
+    line: Line,
     size: impl Into<[u32; 2]>,
     color: &'static P,
 ) -> impl Fn() -> Result<ImageBuffer<P, Vec<P::Subpixel>>, Box<dyn std::error::Error>> + 'f {
@@ -24,11 +24,7 @@ pub fn gen_draw_fn<'f, P: Pixel + 'static>(
         let mut buf: ImageBuffer<P, Vec<_>> = ImageBuffer::new(size[0], size[1]);
 
         // Draw shape on buffer
-        plot_line_bres::<P>(
-            &mut buf,
-            color,
-            Line::new(Point::new(0u32, 0u32), Point::new(size[0], size[1])),
-        );
+        plot_line_bres::<P>(&mut buf, color, line);
 
         // Return buffer
         Ok(buf)
