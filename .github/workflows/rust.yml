@@ -31,6 +31,23 @@ jobs:
     env:
       CARGO_INCREMENTAL: 0
       RUSTFLAGS: "-C debuginfo=0"
+  bench_deps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+          key: ubuntu-cargo-criterion
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+      - name: install criterion
+        run: cargo install cargo-criterion
 
   lint:
     needs: [build]
@@ -70,7 +87,7 @@ jobs:
       RUSTFLAGS: "-C debuginfo=0 -D warnings"
 
   bench:
-    needs: [build]
+    needs: [build, bench_deps]
     runs-on: ubuntu-latest
     steps:
       - uses: actions-rs/toolchain@v1
@@ -78,7 +95,7 @@ jobs:
           toolchain: nightly
           override: true
       - name: Bench-Criterion
-        run: cargo bench --no-plot
+        run: cargo criterion --no-plot
     env:
       CARGO_INCREMENTAL: 0
       RUSTFLAGS: "-C debuginfo=0 -D warnings"
