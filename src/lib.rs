@@ -5,12 +5,14 @@
 //! with an efficient memory layout.
 //!
 
+#![warn(clippy::all, missing_docs, rust_2018_idioms, rust_2021_compatibility)]
+
 // NOTE Warnings are automatically rejected by CI when trying to merge into main
 pub mod api;
 pub(crate) mod rasterization;
-#[warn(missing_docs, rust_2018_idioms, rust_2021_compatibility)]
 pub mod types;
 
+/// Public re-exports module
 pub mod prelude {
     pub use crate::types::{Line, Point};
 }

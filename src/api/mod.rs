@@ -1,11 +1,12 @@
-use super::*;
-use crate::rasterization::plot_line_bres;
-use crate::types::{Line, Point};
-use image::{ImageBuffer, Pixel, Rgba};
+//! External API module
 
-/// Test module for the `gen_draw_fn` function.
+use image::{ImageBuffer, Pixel};
+
+use crate::rasterization::plot_line_bres;
+use crate::types::{GenImageBuf, Line, Point};
+
 #[cfg(test)]
-mod gen_draw_fn_tests;
+mod tests;
 
 /// Returns a fn pointer which returns an `ImageBuffer` with a triangle drawn on it
 pub fn gen_draw_fn<'f, P: Pixel + 'static>(
@@ -18,7 +19,7 @@ pub fn gen_draw_fn<'f, P: Pixel + 'static>(
     // Assert the provided buffer size is square
     assert_eq!(size[0], size[1]);
 
-    move || -> Result<ImageBuffer<P, Vec<P::Subpixel>>, Box<dyn std::error::Error>> {
+    move || -> Result<GenImageBuf<P>, Box<dyn std::error::Error>> {
         // Create buffer
         let mut buf: ImageBuffer<P, Vec<_>> = ImageBuffer::new(size[0], size[1]);
 

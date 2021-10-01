@@ -1,9 +1,10 @@
 //! Rasterization module for hextile
 
-use image::{ImageBuffer, Pixel};
-use num_traits::Bounded;
+#[cfg(test)]
+mod tests;
 
 use crate::types::Line;
+use image::{ImageBuffer, Pixel};
 
 /// Plots a line on an `ImageBuffer` using Bresenham's Line Algorithm.
 ///

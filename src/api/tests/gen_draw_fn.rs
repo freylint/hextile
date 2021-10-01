@@ -1,6 +1,9 @@
-use super::*;
+//! Tests module for the `gen_draw_fn` function
+
+use image::{ImageBuffer, Rgba};
+
+use crate::api::gen_draw_fn;
 use crate::tests_prelude::*;
-use image::{ImageFormat, Pixels, Rgba, RgbaImage};
 
 #[test]
 fn returns() {
@@ -25,10 +28,10 @@ fn modifies_imgbuf() {
 }
 #[test]
 fn draws_line() {
-    // Predefine size separate from global test buf size
-    // NOTE prevents changing the size from effecting this test
+    // Predefine SIZE separate from global test buf SIZE
+    // NOTE prevents changing the SIZE from effecting this test
     // as it uses hardcoded mock data
-    const size: [u32; 2] = [8, 8];
+    const SIZE: [u32; 2] = [8, 8];
 
     // COLOR Constants
     // White
@@ -50,14 +53,14 @@ fn draws_line() {
     ]);
 
     // Pack data into vector
-    let mut data_stack: Vec<u8> = Vec::with_capacity((size[0] * size[1] * 4) as usize);
+    let mut data_stack: Vec<u8> = Vec::with_capacity((SIZE[0] * SIZE[1] * 4) as usize);
     for slice in data {
         for byte in slice {
             data_stack.push(byte);
         }
     }
 
-    let man_buf = ImageBuffer::<Rgba<u8>, Vec<u8>>::from_raw(size[0], size[1], data_stack).unwrap();
+    let man_buf = ImageBuffer::<Rgba<u8>, Vec<u8>>::from_raw(SIZE[0], SIZE[1], data_stack).unwrap();
 
     // Algorithmically generate image buffer
     let buf = gen_draw_fn(ARRAY2_ZERO, TEST_SIZE, &COLOR_WHITE_RGBA)().unwrap();
