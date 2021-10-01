@@ -1,10 +1,11 @@
-//! Rasterization module for hextile
+//! Internal rasterization logic
+
+use image::{ImageBuffer, Pixel};
+
+use crate::types::Line;
 
 #[cfg(test)]
 mod tests;
-
-use crate::types::Line;
-use image::{ImageBuffer, Pixel};
 
 /// Plots a line on an `ImageBuffer` using Bresenham's Line Algorithm.
 ///

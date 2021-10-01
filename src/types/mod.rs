@@ -1,9 +1,9 @@
 //! Convenience types for hextile
 
+use image::{ImageBuffer, Pixel};
+
 #[cfg(test)]
 mod tests;
-
-use image::{ImageBuffer, Pixel};
 
 /// Generic Image Buffer
 pub type GenImageBuf<P> = ImageBuffer<P, Vec<<P as Pixel>::Subpixel>>;
@@ -31,7 +31,7 @@ impl Point {
 ///
 /// _Note_ It is not recommended to construct this using the struct literal syntax.
 /// This skips the validation done in the `Self::new()` constructor
-#[derive(Debug, Eq, PartialEq, Default)]
+#[derive(Debug, Eq, PartialEq, Default, Copy, Clone)]
 pub struct Line {
     /// Upper left point of Line
     ul: Point,
