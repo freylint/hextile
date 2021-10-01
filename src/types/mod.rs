@@ -82,3 +82,18 @@ impl Line {
         plot_line_bres::<P>(buf, color, *self)
     }
 }
+
+/// Enumeration of a distance from an axis
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Ord, PartialOrd)]
+pub enum AxisOffset {
+    /// Horizontal/X Axis offset
+    X(u32),
+    /// Vertical/Y Axis offset
+    Y(u32),
+}
+
+impl Default for AxisOffset {
+    fn default() -> Self {
+        Self::Y(u32::default())
+    }
+}
