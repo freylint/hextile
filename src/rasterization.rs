@@ -13,7 +13,7 @@ use crate::types::Line;
 pub(crate) fn plot_line_bres<P: Pixel + 'static>(
     buf: &mut ImageBuffer<P, Vec<P::Subpixel>>,
     color: &P,
-    l: Line
+    l: Line,
 ) {
     // Get points in line
     let ul = l.upper_left();
@@ -30,14 +30,14 @@ pub(crate) fn plot_line_bres<P: Pixel + 'static>(
     let mut y_buf: u32 = ul.y;
 
     // Apply bresenham's algorithm
-    for x in ul.x .. br.x {
+    for x in ul.x..br.x {
         // Plot Pixel
         buf.put_pixel(x, y_buf, *color);
 
         if d_buf > 0 {
             y_buf += 1;
-            d_buf -= (2*dx) as i32;
+            d_buf -= (2 * dx) as i32;
         }
-        d_buf += (2*dy) as i32;
+        d_buf += (2 * dy) as i32;
     }
 }

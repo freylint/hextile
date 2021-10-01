@@ -1,46 +1,34 @@
 use super::*;
-use image::{RgbaImage, Rgba, Pixels, ImageFormat};
 use crate::tests_prelude::*;
+use image::{ImageFormat, Pixels, Rgba, RgbaImage};
 
 #[test]
 fn returns() {
-    let _ = gen_draw_fn(
-        ARRAY2_ZERO,
-        TEST_SIZE,
-        &COLOR_WHITE_RGBA,
-    );
+    let _ = gen_draw_fn(ARRAY2_ZERO, TEST_SIZE, &COLOR_WHITE_RGBA);
 }
 
 #[test]
 fn returns_ok() {
-    let res = gen_draw_fn(
-        ARRAY2_ZERO,
-        TEST_SIZE,
-        &COLOR_WHITE_RGBA,
-    );
+    let res = gen_draw_fn(ARRAY2_ZERO, TEST_SIZE, &COLOR_WHITE_RGBA);
 
     let _ = res().unwrap();
 }
 
 #[test]
 fn modifies_imgbuf() {
-    let res = gen_draw_fn(
-        ARRAY2_ZERO,
-        TEST_SIZE,
-        &COLOR_WHITE_RGBA,
-    );
+    let res = gen_draw_fn(ARRAY2_ZERO, TEST_SIZE, &COLOR_WHITE_RGBA);
 
     assert_ne!(
         res().unwrap(),
         ImageBuffer::<Rgba<u8>, Vec<u8>>::new(TEST_SIZE[0], TEST_SIZE[1])
     );
-
-}#[test]
+}
+#[test]
 fn draws_line() {
     // Predefine size separate from global test buf size
     // NOTE prevents changing the size from effecting this test
     // as it uses hardcoded mock data
-    const size: [u32; 2] = [8,8];
+    const size: [u32; 2] = [8, 8];
 
     // COLOR Constants
     // White
@@ -61,7 +49,6 @@ fn draws_line() {
         A, A, A, A, A, A, A, W,
     ]);
 
-
     // Pack data into vector
     let mut data_stack: Vec<u8> = Vec::with_capacity((size[0] * size[1] * 4) as usize);
     for slice in data {
@@ -70,18 +57,10 @@ fn draws_line() {
         }
     }
 
-
-    let man_buf =
-        ImageBuffer::<Rgba<u8>, Vec<u8>>::from_raw(
-            size[0], size[1], data_stack
-        ).unwrap();
+    let man_buf = ImageBuffer::<Rgba<u8>, Vec<u8>>::from_raw(size[0], size[1], data_stack).unwrap();
 
     // Algorithmically generate image buffer
-    let buf = gen_draw_fn(
-        ARRAY2_ZERO,
-        TEST_SIZE,
-        &COLOR_WHITE_RGBA,
-    )().unwrap();
+    let buf = gen_draw_fn(ARRAY2_ZERO, TEST_SIZE, &COLOR_WHITE_RGBA)().unwrap();
 
     // Check that the two buffers are the same
     assert_eq!(buf, man_buf);

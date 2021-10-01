@@ -1,7 +1,7 @@
 use super::*;
-use image::{Pixel, ImageBuffer, Rgba};
 use crate::rasterization::plot_line_bres;
 use crate::types::{Line, Point};
+use image::{ImageBuffer, Pixel, Rgba};
 
 /// Test module for the `gen_draw_fn` function.
 #[cfg(test)]
@@ -12,8 +12,7 @@ pub fn gen_draw_fn<'f, P: Pixel + 'static>(
     _pos: impl Into<[u32; 2]>,
     size: impl Into<[u32; 2]>,
     color: &'static P,
-) -> impl Fn() -> Result<ImageBuffer<P, Vec<P::Subpixel>>, Box<dyn std::error::Error>> + 'f
-{
+) -> impl Fn() -> Result<ImageBuffer<P, Vec<P::Subpixel>>, Box<dyn std::error::Error>> + 'f {
     let size: [u32; 2] = size.into();
 
     // Assert the provided buffer size is square
@@ -21,18 +20,16 @@ pub fn gen_draw_fn<'f, P: Pixel + 'static>(
 
     move || -> Result<ImageBuffer<P, Vec<P::Subpixel>>, Box<dyn std::error::Error>> {
         // Create buffer
-        let mut buf: ImageBuffer<P, Vec<_>> =
-            ImageBuffer::new(size[0], size[1]);
+        let mut buf: ImageBuffer<P, Vec<_>> = ImageBuffer::new(size[0], size[1]);
 
         // Draw shape on buffer
-        plot_line_bres::<P>(&mut buf, color, Line::new(
-            Point::new(0u32,0u32),
-            Point::new(size[0], size[1])
-        ));
-
+        plot_line_bres::<P>(
+            &mut buf,
+            color,
+            Line::new(Point::new(0u32, 0u32), Point::new(size[0], size[1])),
+        );
 
         // Return buffer
         Ok(buf)
     }
 }
-
