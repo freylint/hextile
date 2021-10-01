@@ -70,7 +70,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: --all-features
       - name: rustfmt
-        run: cargo fmt --check
+        run: cargo fmt -- --check
 
   test:
     needs: [build]
