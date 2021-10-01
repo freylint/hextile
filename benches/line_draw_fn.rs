@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use criterion::{Criterion, criterion_group, criterion_main};
+use criterion::{criterion_group, criterion_main, Criterion};
 use image::{ImageBuffer, Rgba};
 
 use hextile::api::draw_line;
@@ -26,18 +26,12 @@ fn gen_bench(c: &mut Criterion) {
 
 fn draw_line_bench(c: &mut Criterion) {
     const SIZES: [u32; 5] = [8, 64, 512, 1024, 2048];
-    const NAMES: [&str; 5] = [
-        "draw_line 8x8",
-        "draw_line 64x64",
-        "draw_line 512x512",
-        "draw_line 1024x1024",
-        "draw_line 2048x2048",
-    ];
+    const NAMES: [&str; 5] = ["8x8", "64x64", "512x512", "1024x1024", "2048x2048"];
     const WHITE: Rgba<u8> = Rgba {
         0: [255u8, 255u8, 255u8, 255u8],
     };
 
-    let mut group = c.benchmark_group("line draw fns");
+    let mut group = c.benchmark_group("line draw");
 
     for i in 0..SIZES.len() {
         let name = NAMES[i];
@@ -50,7 +44,7 @@ fn draw_line_bench(c: &mut Criterion) {
                     Line::new(Point::new(0u32, 0u32), Point::new(size, size)),
                     &WHITE,
                 )
-                    .unwrap()
+                .unwrap()
             })
         });
     }
