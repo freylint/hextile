@@ -12,8 +12,8 @@ mod tests;
 /// Works by stepping through an array of pixels and filling them
 /// it then calculates the error of the method
 /// and corrects for it
-pub(crate) fn plot_line_bres<'buf, P: Pixel + 'static>(
-    buf: &'buf mut GenericImageBuf<P>,
+pub(crate) fn plot_line_bres<P: Pixel + 'static>(
+    buf: &mut GenericImageBuf<P>,
     color: &P,
     l: Line,
 ) -> Result<(), Box<dyn std::error::Error>> {
