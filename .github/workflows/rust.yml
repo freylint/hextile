@@ -70,7 +70,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: --all-features
       - name: rustfmt
-        run: cargo fmt -- --force --write-mode diff
+        run: cargo fmt --check
 
   test:
     needs: [build]
@@ -104,7 +104,7 @@ jobs:
           toolchain: nightly
           override: true
       - name: Bench-Criterion
-        run: cargo criterion --no-plot
+        run: cargo criterion
     env:
       CARGO_INCREMENTAL: 0
       RUSTFLAGS: "-C debuginfo=0 -D warnings"
