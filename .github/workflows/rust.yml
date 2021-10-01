@@ -89,7 +89,7 @@ jobs:
       RUSTFLAGS: "-C debuginfo=0 -D warnings"
 
   bench:
-    needs: [build, bench_deps]
+    needs: [bench_deps]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
