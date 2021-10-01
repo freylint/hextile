@@ -5,12 +5,14 @@
 //! with an efficient memory layout.
 //!
 
+#![warn(clippy::all, missing_docs, rust_2018_idioms, rust_2021_compatibility)]
+
 // NOTE Warnings are automatically rejected by CI when trying to merge into main
 pub mod api;
 pub(crate) mod rasterization;
-#[warn(missing_docs, rust_2018_idioms, rust_2021_compatibility)]
 pub mod types;
 
+/// Public re-exports module
 pub mod prelude {
     pub use crate::types::{Line, Point};
 }
@@ -19,8 +21,7 @@ pub mod prelude {
 pub(crate) mod tests_prelude {
     use image::Rgba;
 
-    pub(crate) const ARRAY2_ZERO: [u32; 2] = [0; 2];
-    pub(crate) const TEST_SIZE: [u32; 2] = [8, 8];
+    pub(crate) const TEST_SIZE: u32 = 8;
     pub(crate) const COLOR_WHITE_RGBA: Rgba<u8> = Rgba {
         0: [255, 255, 255, 255],
     };

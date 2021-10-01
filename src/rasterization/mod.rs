@@ -1,9 +1,11 @@
-//! Rasterization module for hextile
+//! Internal rasterization logic
 
-use image::{ImageBuffer, Pixel};
-use num_traits::Bounded;
+use image::Pixel;
 
-use crate::types::Line;
+use crate::types::{GenericImageBuf, Line};
+
+#[cfg(test)]
+mod tests;
 
 /// Plots a line on an `ImageBuffer` using Bresenham's Line Algorithm.
 ///
@@ -11,10 +13,10 @@ use crate::types::Line;
 /// it then calculates the error of the method
 /// and corrects for it
 pub(crate) fn plot_line_bres<P: Pixel + 'static>(
-    buf: &mut ImageBuffer<P, Vec<P::Subpixel>>,
+    buf: &mut GenericImageBuf<P>,
     color: &P,
     l: Line,
-) {
+) -> Result<(), Box<dyn std::error::Error>> {
     // Get points in line
     let ul = l.upper_left();
     let br = l.bottom_right();
@@ -40,4 +42,6 @@ pub(crate) fn plot_line_bres<P: Pixel + 'static>(
         }
         d_buf += (2 * dy) as i32;
     }
+
+    Ok(())
 }
