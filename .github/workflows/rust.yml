@@ -99,6 +99,7 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
+            target/
           key: ubuntu-cargo-criterion
       - uses: actions-rs/toolchain@v1
         with:
@@ -106,6 +107,11 @@ jobs:
           override: true
       - name: Bench-Criterion
         run: cargo criterion
+      - uses: actions/upload-artifact@v2.2.4
+        with:
+          name: bench report
+          path: target/criterion/
+
     env:
       CARGO_INCREMENTAL: 0
       RUSTFLAGS: "-C debuginfo=0 -D warnings"
