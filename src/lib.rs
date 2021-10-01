@@ -5,6 +5,7 @@
 //! with an efficient memory layout.
 //!
 
+// NOTE Warnings are automatically rejected by CI when trying to merge into main
 #![warn(
     clippy::all,
     missing_docs,
@@ -13,7 +14,6 @@
     missing_debug_implementations
 )]
 
-// NOTE Warnings are automatically rejected by CI when trying to merge into main
 pub mod api;
 pub(crate) mod rasterization;
 pub mod types;
