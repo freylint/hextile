@@ -47,7 +47,7 @@ jobs:
           toolchain: nightly
           override: true
       - name: install criterion
-        run: cargo install cargo-criterion
+        run: cargo install cargo-criterion --force
 
   lint:
     needs: [build]
