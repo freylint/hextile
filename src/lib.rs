@@ -21,7 +21,7 @@ pub mod prelude {
 pub(crate) mod tests_prelude {
     use image::Rgba;
 
-    pub(crate) const TEST_SIZE: [u32; 2] = [8, 8];
+    pub(crate) const TEST_SIZE: u32 = 8;
     pub(crate) const COLOR_WHITE_RGBA: Rgba<u8> = Rgba {
         0: [255, 255, 255, 255],
     };

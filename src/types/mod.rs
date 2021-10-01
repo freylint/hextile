@@ -6,7 +6,9 @@ use image::{ImageBuffer, Pixel};
 mod tests;
 
 /// Generic Image Buffer
-pub type GenImageBuf<P> = ImageBuffer<P, Vec<<P as Pixel>::Subpixel>>;
+pub type GenericImageBuf<P> = ImageBuffer<P, Vec<<P as Pixel>::Subpixel>>;
+/// Result returning a `GenericImageBuf` or `Box<dyn std::error::Error`
+pub type GenericImageBufResult<P> = Result<GenericImageBuf<P>, Box<dyn std::error::Error>>;
 
 /// Structure representing a point in 2D Cartesian space
 #[derive(Debug, Eq, PartialEq, Copy, Clone, Default)]

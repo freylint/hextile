@@ -1,34 +1,41 @@
 //! Tests module for the `line_draw_fn` function
 
-use image::{ImageBuffer, Rgba};
+use image::{ImageBuffer, Pixel, Rgba};
 
-use crate::api::line_draw_fn;
+use crate::api::draw_line;
 use crate::tests_prelude::*;
-use crate::types::{Line, Point};
+use crate::types::{GenericImageBuf, Line, Point};
+
+fn test_buf<P: Pixel + 'static>(s: u32) -> GenericImageBuf<P> {
+    ImageBuffer::new(s, s)
+}
 
 #[test]
 fn returns() {
-    let _ = line_draw_fn(Line::default(), TEST_SIZE, &COLOR_WHITE_RGBA);
+    let _ = draw_line(&mut test_buf(TEST_SIZE), Line::default(), &COLOR_WHITE_RGBA);
 }
 
 #[test]
 fn returns_ok() {
-    let res = line_draw_fn(Line::default(), TEST_SIZE, &COLOR_WHITE_RGBA);
+    let res = draw_line(&mut test_buf(TEST_SIZE), Line::default(), &COLOR_WHITE_RGBA);
 
-    let _ = res().unwrap();
+    let _ = res.unwrap();
 }
 
 #[test]
 fn modifies_imgbuf() {
-    let res = line_draw_fn(
+    let mut buf = test_buf(TEST_SIZE);
+
+    let _ = draw_line(
+        &mut buf,
         Line::new(Point::new(0u32, 0u32), Point::new(1u32, 1u32)),
-        TEST_SIZE,
         &COLOR_WHITE_RGBA,
-    );
+    )
+    .unwrap();
 
     assert_ne!(
-        res().unwrap(),
-        ImageBuffer::<Rgba<u8>, Vec<u8>>::new(TEST_SIZE[0], TEST_SIZE[1])
+        buf,
+        ImageBuffer::<Rgba<u8>, Vec<u8>>::new(TEST_SIZE, TEST_SIZE)
     );
 }
 
@@ -68,11 +75,12 @@ fn draws_line() {
         }
     }
 
+    let mut buf = ImageBuffer::new(SIZE[0], SIZE[1]);
     let man_buf = ImageBuffer::<Rgba<u8>, Vec<u8>>::from_raw(SIZE[0], SIZE[1], data_stack).unwrap();
 
     // Algorithmically generate image buffer
-    let buf = line_draw_fn(line, TEST_SIZE, &COLOR_WHITE_RGBA)().unwrap();
+    let _ = draw_line(&mut buf, line, &COLOR_WHITE_RGBA).unwrap();
 
     // Check that the two buffers are the same
-    assert_eq!(buf, man_buf);
+    assert_eq!(man_buf, buf);
 }
