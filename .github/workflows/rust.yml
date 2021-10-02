@@ -8,8 +8,6 @@ on:
 
 jobs:
   lint:
-    env:
-      RUSTFLAGS: "-C debuginfo=0 -D warnings"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -33,6 +31,8 @@ jobs:
           args: --all-features
       - name: rustfmt
         run: cargo fmt -- --check
+    env:
+      RUSTFLAGS: "-C debuginfo=0 -D warnings"
 
   test:
     runs-on: ubuntu-latest
