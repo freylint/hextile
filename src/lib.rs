@@ -19,15 +19,16 @@ pub mod types;
 
 /// Public re-exports module
 pub mod prelude {
+    use crate::image::Rgba;
     pub use crate::types::{Line, Point};
-}
 
-#[cfg(test)]
-pub(crate) mod tests_prelude {
-    use image::Rgba;
-
+    #[cfg(test)]
     pub(crate) const TEST_SIZE: u32 = 8;
     pub(crate) const COLOR_WHITE_RGBA: Rgba<u8> = Rgba {
         0: [255, 255, 255, 255],
     };
+}
+
+pub mod image {
+    pub use ::image::*;
 }

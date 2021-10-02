@@ -4,9 +4,6 @@ use image::{ImageBuffer, Pixel};
 
 use crate::rasterization::plot_line_bres;
 
-#[cfg(test)]
-mod tests;
-
 /// Generic Image Buffer
 pub type GenericImageBuf<P> = ImageBuffer<P, Vec<<P as Pixel>::Subpixel>>;
 /// Result returning a `GenericImageBuf` or `Box<dyn std::error::Error`
@@ -20,6 +17,9 @@ pub struct Point {
     /// Y Coordinate in cartesian space
     pub y: u32,
 }
+
+#[cfg(test)]
+mod point;
 
 impl Point {
     /// Returns `Point` from raw fields
@@ -42,6 +42,9 @@ pub struct Line {
     /// Bottom right point of line
     br: Point,
 }
+
+#[cfg(test)]
+mod line;
 
 #[allow(dead_code)]
 impl Line {
@@ -92,8 +95,14 @@ pub enum AxisOffset {
     Y(u32),
 }
 
+#[cfg(test)]
+mod axis_offset;
+
 impl Default for AxisOffset {
     fn default() -> Self {
         Self::Y(u32::default())
     }
 }
+
+#[cfg(test)]
+mod grid_line;

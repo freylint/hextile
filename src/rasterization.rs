@@ -4,9 +4,6 @@ use image::Pixel;
 
 use crate::types::{GenericImageBuf, Line};
 
-#[cfg(test)]
-mod tests;
-
 /// Plots a line on an `ImageBuffer` using Bresenham's Line Algorithm.
 ///
 /// Works by stepping through an array of pixels and filling them

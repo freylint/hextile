@@ -1,7 +1,7 @@
 use image::{ImageBuffer, Pixel, Rgba};
 use rand::prelude::*;
 
-use crate::tests_prelude::*;
+use crate::prelude::*;
 use crate::types::{GenericImageBuf, Line, Point};
 
 #[test]
