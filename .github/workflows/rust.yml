@@ -10,16 +10,12 @@ jobs:
   lint:
     env:
       RUSTFLAGS: "-C debuginfo=0 -D warnings"
-    strategy:
-      matrix:
-        toolchain: [ nightly ]
-        os: [ ubuntu-latest ]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
-          toolchain: ${{ matrix.toolchain }}
+          toolchain: nightly
           components: clippy, rustfmt
           override: true
       - uses: actions/cache@v2
@@ -58,7 +54,6 @@ jobs:
       - name: test
         run: cargo test
     env:
-      CARGO_INCREMENTAL: 0
       RUSTFLAGS: "-C debuginfo=0 -D warnings"
 
   bench:
