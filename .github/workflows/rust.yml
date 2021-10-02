@@ -7,57 +7,13 @@ on:
   pull_request:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: ubuntu-cargo-build-nightly-${{ hashFiles('**/Cargo.toml') }}
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly
-          override: true
-      - name: build-debug
-        run: cargo build
-      - name: build-release
-        run: cargo build --release
-    env:
-      CARGO_INCREMENTAL: 0
-      RUSTFLAGS: "-C debuginfo=0"
-  bench_deps:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: ubuntu-cargo-criterion
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly
-          override: true
-      - name: install criterion
-        run: cargo install cargo-criterion --force
-
   lint:
-    needs: [build]
     env:
       RUSTFLAGS: "-C debuginfo=0 -D warnings"
     strategy:
       matrix:
-        toolchain: [nightly]
-        os: [ubuntu-latest]
+        toolchain: [ nightly ]
+        os: [ ubuntu-latest ]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -66,6 +22,15 @@ jobs:
           toolchain: ${{ matrix.toolchain }}
           components: clippy, rustfmt
           override: true
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ubuntu-cargo-lint
       - uses: actions-rs/clippy-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -74,7 +39,6 @@ jobs:
         run: cargo fmt -- --check
 
   test:
-    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -82,6 +46,15 @@ jobs:
         with:
           toolchain: nightly
           override: true
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ubuntu-cargo-test
       - name: test
         run: cargo test
     env:
@@ -89,7 +62,6 @@ jobs:
       RUSTFLAGS: "-C debuginfo=0 -D warnings"
 
   bench:
-    needs: [bench_deps]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -106,13 +78,13 @@ jobs:
         with:
           toolchain: nightly
           override: true
+      - name: Install-Criterion
+        run: cargo install --force criterion
       - name: Bench-Criterion
         run: cargo criterion
       - uses: actions/upload-artifact@v2.2.4
         with:
           name: bench report
           path: target/criterion/
-
     env:
-      CARGO_INCREMENTAL: 0
       RUSTFLAGS: "-C debuginfo=0 -D warnings"
