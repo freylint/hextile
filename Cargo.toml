@@ -11,7 +11,11 @@ num-traits = "0.2"
 
 [dev-dependencies]
 rand = "0.8"
-criterion = "0.3"
+criterion = { version = "0.3", features = ["real_blackbox"]}
+
+
+# Workaround for criterion
+#serde_derive = "*"
 
 [[bench]]
 name = "line_draw_fn"
