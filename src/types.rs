@@ -110,13 +110,18 @@ mod grid_line_tests;
 /// Cartesian grid aligned Line
 ///
 /// Given its own type as it is much faster to draw than lines which require rasterization.
-#[derive(Debug, Copy, Clone, Eq, PartialEq)]
+#[derive(Debug, Copy, Clone, Eq, PartialEq, Default)]
 pub struct GridLine {
     offset: AxisOffset,
     margin: u32,
 }
 
 impl GridLine {
+    /// Constructs a `GridLine`
+    pub fn new(offset: AxisOffset, margin: u32) -> Self {
+        Self { offset, margin }
+    }
+
     /// Accessor for the offset field of `GridLine`
     pub fn offset(&self) -> AxisOffset {
         self.offset
