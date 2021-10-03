@@ -35,6 +35,8 @@ pub mod prelude {
     }
 }
 
+/// Re-export of the Image crate.
 pub mod image {
+    // TODO export only the necessary types
     pub use ::image::*;
 }
