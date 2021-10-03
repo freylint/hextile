@@ -5,7 +5,13 @@
 //! with an efficient memory layout.
 //!
 
-#![warn(clippy::all, missing_docs, rust_2018_idioms, rust_2021_compatibility, missing_debug_implementations)]
+#![warn(
+    clippy::all,
+    missing_docs,
+    rust_2018_idioms,
+    rust_2021_compatibility,
+    missing_debug_implementations
+)]
 
 // NOTE Warnings are automatically rejected by CI when trying to merge into main
 pub mod api;
