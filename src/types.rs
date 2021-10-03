@@ -123,22 +123,22 @@ impl GridLine {
     }
 
     /// Accessor for the offset field of `GridLine`
-    pub fn offset(&self) -> AxisOffset {
-        self.offset
+    pub fn offset(&self) -> &AxisOffset {
+        &self.offset
     }
 
     /// Mutable accessor for the offset field of `GridLine`
-    pub fn offset_mut(&mut self) -> AxisOffset {
-        self.offset
+    pub fn offset_mut(&mut self) -> &mut AxisOffset {
+        &mut self.offset
     }
 
     /// Accessor for the margin field of `GridLine`
-    pub fn margin(&self) -> u32 {
-        self.margin
+    pub fn margin(&self) -> &u32 {
+        &self.margin
     }
 
     /// Mutable Accessor for the margin field of `GridLine`
-    pub fn margin_mut(&mut self) -> u32 {
-        self.margin
+    pub fn margin_mut(&mut self) -> &mut u32 {
+        &mut self.margin
     }
 }
