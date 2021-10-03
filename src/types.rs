@@ -19,7 +19,7 @@ pub struct Point {
 }
 
 #[cfg(test)]
-mod point;
+mod point_tests;
 
 impl Point {
     /// Returns `Point` from raw fields
@@ -44,7 +44,7 @@ pub struct Line {
 }
 
 #[cfg(test)]
-mod line;
+mod line_tests;
 
 #[allow(dead_code)]
 impl Line {
@@ -96,7 +96,7 @@ pub enum AxisOffset {
 }
 
 #[cfg(test)]
-mod axis_offset;
+mod axis_offset_tests;
 
 impl Default for AxisOffset {
     fn default() -> Self {
@@ -105,4 +105,4 @@ impl Default for AxisOffset {
 }
 
 #[cfg(test)]
-mod grid_line;
+mod grid_line_tests;
