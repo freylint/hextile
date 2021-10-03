@@ -19,14 +19,20 @@ pub mod types;
 
 /// Public re-exports module
 pub mod prelude {
-    use crate::image::Rgba;
     pub use crate::types::{Line, Point};
 
     #[cfg(test)]
-    pub(crate) const TEST_SIZE: u32 = 8;
-    pub(crate) const COLOR_WHITE_RGBA: Rgba<u8> = Rgba {
-        0: [255, 255, 255, 255],
-    };
+    pub(crate) use test::*;
+
+    #[cfg(test)]
+    #[allow(dead_code)]
+    mod test {
+        use crate::image::Rgba;
+        pub(crate) const TEST_SIZE: u32 = 8;
+        pub(crate) const COLOR_WHITE_RGBA: Rgba<u8> = Rgba {
+            0: [255, 255, 255, 255],
+        };
+    }
 }
 
 pub mod image {
