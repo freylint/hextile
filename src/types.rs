@@ -106,3 +106,34 @@ impl Default for AxisOffset {
 
 #[cfg(test)]
 mod grid_line_tests;
+
+/// Cartesian grid aligned Line
+///
+/// Given its own type as it is much faster to draw than lines which require rasterization.
+#[derive(Debug, Copy, Clone, Eq, PartialEq)]
+pub struct GridLine {
+    offset: AxisOffset,
+    margin: u32,
+}
+
+impl GridLine {
+    /// Accessor for the offset field of `GridLine`
+    pub fn offset(&self) -> AxisOffset {
+        self.offset
+    }
+
+    /// Mutable accessor for the offset field of `GridLine`
+    pub fn offset_mut(&mut self) -> AxisOffset {
+        self.offset
+    }
+
+    /// Accessor for the margin field of `GridLine`
+    pub fn margin(&self) -> u32 {
+        self.margin
+    }
+
+    /// Mutable Accessor for the margin field of `GridLine`
+    pub fn margin_mut(&mut self) -> u32 {
+        self.margin
+    }
+}
