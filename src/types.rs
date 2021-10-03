@@ -57,10 +57,10 @@ impl Line {
         let br = br.into();
 
         // Validate that ul is left of or at the same x coord as br
-        assert!(ul.x <= br.x);
+        debug_assert!(ul.x <= br.x);
 
         // Validate that ul is above of or at the same y coord as br
-        assert!(ul.y <= br.y);
+        debug_assert!(ul.y <= br.y);
 
         Self { ul, br }
     }
