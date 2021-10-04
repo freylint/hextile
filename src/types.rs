@@ -55,10 +55,6 @@ impl Line {
     #[debug_requires(ul.x <= br.x)]
     #[debug_requires(ul.y <= br.y)]
     pub fn new(ul: Point, br: Point) -> Self {
-        // Cast generics into opaque types
-        let ul = ul.into();
-        let br = br.into();
-
         Self { ul, br }
     }
 
