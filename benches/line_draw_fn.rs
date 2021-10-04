@@ -54,8 +54,8 @@ criterion_group! {
     name = benches;
     // This can be any expression that returns a `Criterion` object.
     config = Criterion::default()
-        .warm_up_time(Duration::from_secs(2))
-        .measurement_time(Duration::from_secs(5));
+        .warm_up_time(Duration::from_secs(1))
+        .measurement_time(Duration::from_secs(3));
     targets = gen_bench, draw_line_bench
 }
 criterion_main!(benches);
