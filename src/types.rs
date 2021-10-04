@@ -1,5 +1,6 @@
 //! Convenience types for hextile
 
+use contracts::*;
 use image::{ImageBuffer, Pixel};
 
 use crate::rasterization::plot_line_bres;
@@ -51,7 +52,9 @@ impl Line {
     /// Returns a `Line`
     ///
     /// Validates that the upper left and bottom right points are valid
-    pub fn new(ul: impl Into<Point>, br: impl Into<Point>) -> Self {
+    #[debug_requires(ul.x <= br.x)]
+    #[debug_requires(ul.y <= br.y)]
+    pub fn new(ul: Point, br: Point) -> Self {
         // Cast generics into opaque types
         let ul = ul.into();
         let br = br.into();

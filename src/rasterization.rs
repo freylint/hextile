@@ -1,14 +1,21 @@
 //! Internal rasterization logic
 
+use contracts::debug_requires;
 use image::Pixel;
 
-use crate::types::{GenericImageBuf, Line};
+use rayon::prelude::*;
+
+use crate::types::{GenericImageBuf, Point};
 
 /// Plots a line on an `ImageBuffer` using Bresenham's Line Algorithm.
 ///
 /// Works by stepping through an array of pixels and filling them
 /// it then calculates the error of the method
 /// and corrects for it
+#[inline]
+#[debug_requires((ul.x <= br.x) && (ul.y <= br.y))]
+#[debug_requires(buf.width() >= 1)]
+#[debug_requires(buf.height() >= 1)]
 pub(crate) fn plot_line_bres<P: Pixel + 'static>(
     buf: &mut GenericImageBuf<P>,
     color: &P,
