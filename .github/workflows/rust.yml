@@ -73,10 +73,8 @@ jobs:
         with:
           toolchain: nightly
           override: true
-      - name: Install-Criterion
-        run: cargo install --force cargo-criterion
       - name: Bench-Criterion
-        run: cargo criterion
+        run: cargo bench --all-features
       - uses: actions/upload-artifact@v2.2.4
         with:
           name: bench report
