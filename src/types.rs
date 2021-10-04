@@ -59,12 +59,6 @@ impl Line {
         let ul = ul.into();
         let br = br.into();
 
-        // Validate that ul is left of or at the same x coord as br
-        debug_assert!(ul.x <= br.x);
-
-        // Validate that ul is above of or at the same y coord as br
-        debug_assert!(ul.y <= br.y);
-
         Self { ul, br }
     }
 
@@ -85,7 +79,7 @@ impl Line {
         color: &'static P,
     ) -> Result<(), Box<dyn std::error::Error>> {
         // Draw line on buffer
-        plot_line_bres::<P>(buf, color, *self)
+        plot_line_bres::<P>(buf, color, &self.ul, &self.br)
     }
 }
 

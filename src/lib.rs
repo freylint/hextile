@@ -5,6 +5,8 @@
 //! with an efficient memory layout.
 //!
 
+#![cfg_attr(feature = "intrinsics", feature(core_intrinsics))]
+//
 // NOTE Warnings are automatically rejected by CI when trying to merge into main
 #![warn(
     clippy::all,
@@ -19,15 +21,16 @@ pub mod types;
 
 /// Public re-exports module
 pub mod prelude {
-    pub use crate::types::{Line, Point};
-
     #[cfg(test)]
     pub(crate) use test::*;
+
+    pub use crate::types::{Line, Point};
 
     #[cfg(test)]
     #[allow(dead_code)]
     mod test {
         use crate::image::Rgba;
+
         pub(crate) const TEST_SIZE: u32 = 8;
         pub(crate) const COLOR_WHITE_RGBA: Rgba<u8> = Rgba {
             0: [255, 255, 255, 255],

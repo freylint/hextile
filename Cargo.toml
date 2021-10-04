@@ -14,9 +14,10 @@ contracts = "0.6"
 rand = "0.8"
 criterion = { version = "0.3", features = ["real_blackbox"]}
 
+[features]
+default = []
+intrinsics = []
 
-# Workaround for criterion
-#serde_derive = "*"
 
 [[bench]]
 name = "line_draw_fn"

@@ -19,11 +19,19 @@ use crate::types::{GenericImageBuf, Point};
 pub(crate) fn plot_line_bres<P: Pixel + 'static>(
     buf: &mut GenericImageBuf<P>,
     color: &P,
-    l: Line,
+    ul: &Point,
+    br: &Point,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    // Get points in line
-    let ul = l.upper_left();
-    let br = l.bottom_right();
+    #[cfg(feature = "intrinsics")]
+    #[cfg(any(target_arch = "x86_64", target_arch = "aarch64"))]
+    unsafe {
+        use std::intrinsics::prefetch_read_data;
+
+        prefetch_read_data(ul, 3);
+        prefetch_read_data(br, 3);
+    }
+    // Precalc range while cache is hot
+    let line_x_coords = ul.x..br.x;
 
     // Calculate delta of points
     let dx = br.x - ul.x;
@@ -32,12 +40,20 @@ pub(crate) fn plot_line_bres<P: Pixel + 'static>(
     // Create information buffers
     // d - Delta error
     // y - y coordinate of graph
-    let mut d_buf: i32 = (2 * dy - dx) as i32;
+    let mut d_buf: i32 = (2u32 * dy - dx) as i32;
     let mut y_buf: u32 = ul.y;
 
     // Apply bresenham's algorithm
-    for x in ul.x..br.x {
+    for x in line_x_coords {
         // Plot Pixel
+        #[cfg(feature = "intrinsics")]
+        #[cfg(any(target_arch = "x86_64", target_arch = "aarch64"))]
+        unsafe {
+            use std::intrinsics::{prefetch_read_data, prefetch_write_data};
+
+            prefetch_read_data(color, 3);
+            prefetch_write_data(buf, 2);
+        }
         buf.put_pixel(x, y_buf, *color);
 
         if d_buf > 0 {
@@ -46,6 +62,5 @@ pub(crate) fn plot_line_bres<P: Pixel + 'static>(
         }
         d_buf += (2 * dy) as i32;
     }
-
     Ok(())
 }

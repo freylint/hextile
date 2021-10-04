@@ -30,14 +30,22 @@ fn draw_line_bench(c: &mut Criterion) {
     };
 
     let mut group = c.benchmark_group("line draw");
+    group.significance_level(0.1);
 
     for i in 0..SIZES.len() {
         let name = NAMES[i];
         let mut buf = ImageBuffer::new(SIZES[i], SIZES[i]);
         let size = SIZES[i];
+        let num_iters = 0..2048 / size;
 
         let l = black_box(Line::new(Point::default(), Point::new(size, size)));
-        group.bench_function(name, |b| b.iter(|| l.draw_over_buf(&mut buf, &WHITE)));
+        group.bench_function(name, |b| {
+            b.iter(|| {
+                for i in num_iters.clone() {
+                    l.draw_over_buf(&mut buf, &WHITE);
+                }
+            })
+        });
     }
     group.finish();
 }
@@ -46,9 +54,8 @@ criterion_group! {
     name = benches;
     // This can be any expression that returns a `Criterion` object.
     config = Criterion::default()
-        //.sample_size(500)
-        .warm_up_time(Duration::from_secs(5))
-        .measurement_time(Duration::from_secs(10));
+        .warm_up_time(Duration::from_secs(2))
+        .measurement_time(Duration::from_secs(5));
     targets = gen_bench, draw_line_bench
 }
 criterion_main!(benches);
