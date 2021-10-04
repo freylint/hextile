@@ -36,12 +36,12 @@ fn draw_line_bench(c: &mut Criterion) {
         let name = NAMES[i];
         let mut buf = ImageBuffer::new(SIZES[i], SIZES[i]);
         let size = SIZES[i];
-        let num_iters = 0..2048 / size;
+        let num_iters = (0..(2048 / size)).len();
 
         let l = black_box(Line::new(Point::default(), Point::new(size, size)));
         group.bench_function(name, |b| {
             b.iter(|| {
-                for i in num_iters.clone() {
+                for _ in 0..num_iters {
                     l.draw_over_buf(&mut buf, &WHITE);
                 }
             })
