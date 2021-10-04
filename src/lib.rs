@@ -13,7 +13,8 @@
     missing_docs,
     rust_2018_idioms,
     rust_2021_compatibility,
-    missing_debug_implementations
+    missing_debug_implementations,
+    missing_copy_implementations
 )]
 
 pub(crate) mod rasterization;
