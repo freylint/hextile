@@ -3,8 +3,6 @@
 use contracts::debug_requires;
 use image::Pixel;
 
-use rayon::prelude::*;
-
 use crate::types::{GenericImageBuf, Point};
 
 /// Plots a line on an `ImageBuffer` using Bresenham's Line Algorithm.
