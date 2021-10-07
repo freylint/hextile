@@ -1,5 +1,7 @@
 //! Convenience types for hextile
 
+use std::ops::Sub;
+
 use contracts::*;
 use image::{ImageBuffer, Pixel};
 
@@ -133,5 +135,59 @@ impl GridLine {
     /// Mutable Accessor for the margin field of `GridLine`
     pub fn margin_mut(&mut self) -> &mut u32 {
         &mut self.margin
+    }
+
+    /// Draws the line on an `ImageBuffer`
+    #[debug_requires(buf.dimensions() >= (1u32, 1u32))]
+    pub fn draw<P: 'static + Pixel + Pixel<Subpixel = P>>(
+        &self,
+        buf: &mut GenericImageBuf<P>,
+        color: P,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        match self.offset {
+            AxisOffset::X(off) => {
+                //
+                debug_assert!(off <= buf.rows().len() as u32);
+
+                self.draw_horizontal_line(off, buf, color);
+
+                Ok(())
+            }
+            AxisOffset::Y(off) => {
+                let (width, height) = buf.dimensions();
+
+                assert!(off <= width);
+
+                Ok(())
+            }
+        }
+    }
+
+    /// Draws a vertical line
+    ///
+    /// Subroutine of `Self::draw`
+    #[inline]
+    fn draw_horizontal_line<P: 'static + Pixel + Pixel<Subpixel = P>>(
+        &self,
+        off: u32,
+        buf: &mut GenericImageBuf<P>,
+        color: P,
+    ) {
+        // Cache variables
+        let width = buf.width();
+
+        //let raw: Vec<_> = buf.into_raw();
+        let mut raw = buf.chunks_mut(width as usize);
+        let raw = raw.nth(off as usize).unwrap();
+
+        for i in 0..raw.len() {
+            match i {
+                _ if i <= self.margin as usize => continue,
+                _ if i >= (width - self.margin) as usize => break,
+                x => {
+                    raw[x] = color.clone();
+                }
+            }
+        }
     }
 }

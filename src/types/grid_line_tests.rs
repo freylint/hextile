@@ -1,4 +1,7 @@
-use crate::types::{AxisOffset, GridLine};
+use image::{ImageBuffer, Rgba};
+
+use crate::prelude::{COLOR_WHITE_RGBA, TEST_SIZE};
+use crate::types::{AxisOffset, GridLine, Line};
 
 #[test]
 fn new() {
@@ -76,4 +79,12 @@ fn margin_mut() {
 
     *l.margin_mut() = control;
     assert_eq!(*l.margin(), control);
+}
+
+#[test]
+fn draw_hori_no_margin() {
+    let gl = GridLine::new(AxisOffset::X(TEST_SIZE / 2), 0);
+    let mut buf = ImageBuffer::new(TEST_SIZE, TEST_SIZE);
+
+    gl.draw_horizontal_line(0, &mut buf, COLOR_WHITE_RGBA);
 }
